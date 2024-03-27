@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const app = express();
 const authRoutes = require('./backend/routes/Auth.js');
-const { db } = require('./backend/database/db.js');
+const { db } = require('./backend/config/db.js');
 
 dotenv.config();
 
