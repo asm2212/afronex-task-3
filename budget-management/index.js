@@ -1,20 +1,25 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const app = express();
 const authRoutes = require('./backend/routes/Auth.js');
+const { db } = require('./backend/database/db.js');
 
 dotenv.config();
-
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('Failed to connect to MongoDB', err));
 
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Hello asm!');
+});
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+db() 
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB', err);
+  });
