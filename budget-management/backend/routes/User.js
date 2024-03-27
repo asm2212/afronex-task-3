@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const authenticateToken = require('../middlewares/authMiddleware.js');
+const authenticateToken = require('../middlewares/auth.js');
 const usersController = require('../controllers/budgetController.js');
 
 router.get('/', authenticateToken, usersController.getAllUsers);
