@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel.js');
+const nodemailer = require("nodemailer");
 
 const signup = async (req, res, next) => {
     const { username, password } = req.body;
@@ -68,7 +69,61 @@ const verfiyEmail = async(req, res, next) => {
     }
 } 
 
+const forgotPassword = async(req,res,next) => {
+    try {
+        const {email} = req.body;
+        const user = await User.findOne({email});
+
+        if (!user) {
+            return res.status(400).json({ message: ' email not found' });
+        }
+        
+        const resetToken = generateResetToken();
+        user.resetToken = resetToken;
+        await user.save();
+
+        sendResetTokenEmail(user.email,resetToken);
+        res.status(200).json({ message: 'Reset token sent to your email address' });
+    } catch (error) {
+        console.log("Error in forgotPassword", error);
+        res.status(500).json({ message: 'Server Error' });
+        
+    }
+}
+
+const generateResetToken = () => {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+};
+
+const transporter = nodemailer.createTransport(process.env.EMAIL_CONFIG);
+
+
+ const sendResetTokenEmail = async(email,resetToken) => {
+    try {
+        await transporter.sendMail({
+            from: process.env.EMAIL_FROM,
+            to: email,
+            subject: 'reset password',
+            text: `Enter this code in the input field to reset your password: ${resetToken}`,
+        });
+        console.log(`Reset token sent to: ${email}`);
+        
+    } catch (error) {
+        console.log("Error in sendResetTokenEmail", error);
+        throw error;
+    
+        
+    }
+ };
+
+
+
+
 module.exports = {
     signup,
-    signin
+    signin,
+    verfiyEmail,
+    forgotPassword,
+    sendResetTokenEmail
+    
 };
