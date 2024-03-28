@@ -4,7 +4,7 @@ const {generateToken} = require('../config/jwt.js');
 
 
 
-const register = async(req, res, next) => {
+const register = async(req, res) => {
     try {
         const {email, password} = req.body;
 
@@ -26,9 +26,36 @@ const register = async(req, res, next) => {
         
     } catch (error) {
         console.log('error in register', error);
-        res.status(500).json({message: 'Server error'});
-        next(error);      
+        res.status(500).json({message: 'Server error'});    
     }
 }
+
+
+
+const login = async(req, res) => {
+    try {
+        const {email, password} = req.body;
+        const user = await User.findOne({email});
+        if (!user) {
+            return res.status(400).json({message: 'Invalid credentials'});
+        }
+        
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({message: 'Invalid credentials'});
+        }
+
+        const token = generateToken({userId : user._id});
+        res.status(200).json({token});
+    } catch (error) {
+        console.log("Error in Login:", error);
+        res.status(500).json({message: 'Server error'}); 
+    }
+}
+
+
+
+
+
 
 
