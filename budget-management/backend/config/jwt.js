@@ -10,8 +10,23 @@ const verfiyToken = (token) => {
     return jwt.verify(token, process.env.JWT_SECRET);
 };
 
+const generateVerificationToken = () => {
+    const secretKey = process.env.JWT_SECRET_KEY;
+    const token = jwt.sign({ }, secretKey, { expiresIn: '1h' });
+    return token;
+  };
+  
+  const generateResetToken = () => {
+    const secretKey = process.env.JWT_SECRET_KEY;
+    const token = jwt.sign({ }, secretKey, { expiresIn: '1h' });
+    return token;
+  };
+
 module.exports = {
     generateToken,
-    verfiyToken
+    verfiyToken,
+    generateVerificationToken,
+    generateResetToken
 };
+
 
