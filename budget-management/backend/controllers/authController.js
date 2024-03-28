@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel.js');
 const nodemailer = require("nodemailer");
 
+
+
 const signup = async (req, res, next) => {
     const { username, password } = req.body;
 
@@ -10,7 +12,7 @@ const signup = async (req, res, next) => {
         const existingUser = await User.findOne({ username });
 
         if (existingUser) {
-            return res.status(400).json({ message: 'Username already exists' });
+            return res.status(400).json({ message: 'U.sername already exists' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
