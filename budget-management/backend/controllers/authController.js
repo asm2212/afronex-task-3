@@ -51,25 +51,25 @@ const signin = async (req, res, next) => {
     }
 };
 
-const verfiyEmail = async(req, res, next) => {
-    try {
+// const verfiyEmail = async(req, res, next) => {
+//     try {
         
-        const {verficationToken} = req.params;
-        const user = await User.findOne({verficationToken});
+//         const {verficationToken} = req.params;
+//         const user = await User.findOne({verficationToken});
 
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid verfication token' });
-        }
-        user.emailVerification = true;
-        user.verificationToken = null;
-        await user.save();
-        res.status(200).json({ message: 'Email has been verified' });
-    } catch (error) {
-        console.log("Error in verfiyEmail", error);
-        res.status(500).json({ message: 'Server Error' });
+//         if (!user) {
+//             return res.status(400).json({ message: 'Invalid verfication token' });
+//         }
+//         user.emailVerification = true;
+//         user.verificationToken = null;
+//         await user.save();
+//         res.status(200).json({ message: 'Email has been verified' });
+//     } catch (error) {
+//         console.log("Error in verfiyEmail", error);
+//         res.status(500).json({ message: 'Server Error' });
         
-    }
-} 
+//     }
+// } 
 
 const forgotPassword = async(req,res,next) => {
     try {
@@ -135,7 +135,6 @@ const transporter = nodemailer.createTransport({
   module.exports = {
     signup,
     signin,
-    verifyEmail,
     forgotPassword,
     sendResetTokenEmail,
   };
