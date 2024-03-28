@@ -1,8 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const authRoute = require('./backend/routes/authRoute.js');
-const budgetRoute = require('./backend/routes/budgetRoute.js');
+const authRoute = require('./backend/routes/authRoutes.js');
+const budgetRoute = require('./backend/routes/budgetRoutes.js');
 
 dotenv.config();
 
