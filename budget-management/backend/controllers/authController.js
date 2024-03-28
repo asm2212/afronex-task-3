@@ -93,39 +93,50 @@ const forgotPassword = async(req,res,next) => {
     }
 }
 
+
 const generateResetToken = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };
 
-const transporter = nodemailer.createTransport(process.env.EMAIL_CONFIG);
 
-
- const sendResetTokenEmail = async(email,resetToken) => {
+const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    secure: process.env.EMAIL_SECURE, 
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+  
+  const sendResetTokenEmail = async (email, resetToken) => {
     try {
-        await transporter.sendMail({
-            from: process.env.EMAIL_FROM,
-            to: email,
-            subject: 'reset password',
-            text: `Enter this code in the input field to reset your password: ${resetToken}`,
-        });
-        console.log(`Reset token sent to: ${email}`);
-        
+      await transporter.sendMail({
+        from: process.env.EMAIL_FROM,
+        to: email,
+        subject: "Password Reset Request",
+        html: `<p>Please click the following link to reset your password:</p>
+             <a href="${process.env.BASE_URL}/api/auth/reset-password/${resetToken}"
+             target="_blank">${process.env.BASE_URL}/api/auth/reset-password/${resetToken}</a>
+             <p>This link will expire in 1 hour.</p>
+             <p>If you did not request a password reset, please ignore this email.</p>
+             <p>Best regards,</p>
+             <p>The Afronex Budget Management Team</p>`,
+      });
+  
+      console.log(`Reset password email sent to: ${email}`);
     } catch (error) {
-        console.log("Error in sendResetTokenEmail", error);
-        throw error;
-    
-        
+      console.error(`Error sending reset password email to: ${email}`, error);
+      throw error;
     }
- };
+  };
 
-
-
-
-module.exports = {
+  
+  module.exports = {
     signup,
     signin,
-    verfiyEmail,
+    verifyEmail,
     forgotPassword,
-    sendResetTokenEmail
-    
-};
+    sendResetTokenEmail,
+  };
+
