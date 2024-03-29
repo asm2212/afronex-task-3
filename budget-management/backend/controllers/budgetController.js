@@ -1,5 +1,6 @@
 const BudgetCategory = require('../models/BudgetCategory.js');
 
+
 const addBudgetCategory = async(req,res) => {
     try {
         const {name} = req.body;
