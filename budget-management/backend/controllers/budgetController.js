@@ -44,3 +44,27 @@ const addBudgetCategory = async(req,res) => {
     }
 }
 
+const removeBudgetCategory = async(req,res) => {
+     try {
+        const {id} = req.params;
+
+        const removedCategory = await BudgetCategory.findByIdAndDelete(id);
+        
+        if (!removedCategory){
+            return res.status(404).json({message: 'Category not found'});
+        }
+        
+        return res.status(200).json({message: 'Category removed successfully', category: removedCategory});
+        
+     } catch (error) {
+        console.log("Error in removing the budget category", error);
+        res.status(500).json({message:"Server Error"})
+        
+     }
+};
+
+module.exports = {
+    addBudgetCategory,
+    removeBudgetCategory,
+    updateBudgetCategory
+}
