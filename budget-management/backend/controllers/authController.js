@@ -104,6 +104,14 @@ const forgotPassword = async(req, res) => {
         
     }
 }
+/* const resetPassword = async(req,res) => {
+    try{
+        
+    }catch(error){
+
+    }
+
+} */
 
 module.exports ={
     register,
