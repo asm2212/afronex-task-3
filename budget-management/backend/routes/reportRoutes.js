@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authenticateUser = require('../middlewares/authMiddleware.js');
 const reportServices = require('../services/reportServices.js');
-const checkRole = require('../middlewares/checkRole.js');
+const checkRole = require('../middlewares/roleMiddleware.js');
 
 router.use(authenticateUser);
 
