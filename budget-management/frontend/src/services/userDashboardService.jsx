@@ -19,5 +19,12 @@ export const getTotalExpenses = async() => {
     }
 };
 
-
+export const generateExpenseReport = async() => {
+    try{
+        const response = await axios.get('/user-dashboard/expense-report');
+        return response.data;
+    }catch(error){
+        throw error.response.data.message;
+    }
+};
 
