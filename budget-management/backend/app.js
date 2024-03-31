@@ -2,11 +2,8 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const errorHandler = require('./utils/errorHandler');
-const userDashboardRoutes = require('./routes/userDashboardRoutes.js');
-
 
 const app = express();
-
 
 connectDB();
 
@@ -17,7 +14,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/budget', require('./routes/budgetRoutes'));
 app.use('/api/expense', require('./routes/expenseRoutes'));
 app.use('/api/report', require('./routes/reportRoutes'));
-app.use('/user-dashboard', userDashboardRoutes);
+app.use('/user-dashboard',require('./routes/userDashboardRoutes.js'));
 
 // Error handling middleware
 app.use(errorHandler);
