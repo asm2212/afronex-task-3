@@ -6,7 +6,12 @@ const checkRole = require('../middlewares/roleMiddleware.js');
 
 router.use(authenticateUser);
 
-router.get('/budgetReport',reportServices.generateBudgetReport);
-router.get('/expenseReport',checkRole('admin'),reportServices.generateExpenseReport);
+router.get('/budgetReport', (req, res) => {
+  reportServices.generateBudgetReport(req, res);
+});
+
+router.get('/expenseReport', checkRole('admin'), (req, res) => {
+  reportServices.generateExpenseReport(req, res);
+});
 
 module.exports = router;
