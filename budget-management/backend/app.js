@@ -1,11 +1,13 @@
 // app.js
 const express = require('express');
 const connectDB = require('./config/db');
-const errorHandler = require('./utils/errorHandler');
+
 
 const app = express();
 
 connectDB();
+
+
 
 app.use(express.json());
 
@@ -16,8 +18,6 @@ app.use('/api/expense', require('./routes/expenseRoutes'));
 app.use('/api/report', require('./routes/reportRoutes'));
 app.use('/user-dashboard',require('./routes/userDashboardRoutes.js'));
 
-// Error handling middleware
-app.use(errorHandler);
 
 module.exports = app;
 
